@@ -8,7 +8,7 @@ function App() {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
-          HOLA <code>src/App.js</code> and save to reload.
+          PRUEBA de Auth <code>src/App.js</code> and save to reload.
         </p>
         <a
           className="App-link"
@@ -18,6 +18,7 @@ function App() {
         >
           Learn React
         </a>
+        <a href="/auth/google">Sign In With Google</a>
       </header>
     </div>
   );

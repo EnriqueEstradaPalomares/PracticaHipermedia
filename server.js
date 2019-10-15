@@ -3,7 +3,8 @@ const mongoose = require('mongoose');
 const keys = require('./config/keys');
 require('./models/user');
 require('./services/passport');
-const authRoutes = require('./routes/authRoutes')
+const proxy = require('./client/node_modules/http-proxy-middleware');
+const authRoutes = require('./routes/authRoutes');
 
 
 var app = express();
@@ -12,6 +13,11 @@ app.listen(PORT);
 
 mongoose.connect(keys.mongoURL)
 authRoutes(app);
+
+app.use(proxy('/auth/google', { target: 'http://localhost:5000' }));
+app.use(proxy('/api/**', { target: 'http://localhost:5000' }));
+app.use(proxy('/auth/google/callback', { target: 'http://localhost:5000' }));
+app.use(proxy('/api/current_user', { target: 'http://localhost:5000' }));
 
 //require('./routes/authRoutes.js')(app)
 
