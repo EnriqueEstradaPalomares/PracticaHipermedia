@@ -7,20 +7,16 @@ class Header extends Component {
     renderContent() {
         switch (this.props.auth) {
             case null://vista si conect esta vacio
-                return  [
-                    <li><Payments /></li>,
-                <li><a href="/api/logout">Logout</a></li>
-            ];
-                break;
+                return 
             case false://vista si conect es falso
-                return <li><a href="/auth/google">Login with google</a></li>;
-                break;
+                return (
+                <li><a href="/auth/google">Login with google</a></li>
+                )
             default://vista si conect es verdadero
                 return [
                     <li key="1"><Payments /></li>,
                 <li key="2"><a href="/api/logout">Logout</a></li>
             ];
-                break;
         }
     }
     render() {

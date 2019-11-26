@@ -3,13 +3,14 @@ const mongoose = require('mongoose');
 const keys = require('./config/keys');
 const cookieSession = require('cookie-session');
 const passport = require('passport');
-require('./models/user');
-require('./services/passport');
 const proxy = require('./client/node_modules/http-proxy-middleware');
 const authRoutes = require('./routes/authRoutes');
 
+require('./models/user');
+require('./services/passport');
 
-var app = express();
+
+const app = express();
 const PORT = process.env.PORT || 5000;
 app.listen(PORT);
 
