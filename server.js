@@ -1,6 +1,8 @@
 var express = require('express');
 const mongoose = require('mongoose');
 const keys = require('./config/keys');
+const cookieSession = require('cookie-session');
+const passport = require('passport');
 require('./models/user');
 require('./services/passport');
 const proxy = require('./client/node_modules/http-proxy-middleware');
@@ -14,12 +16,25 @@ app.listen(PORT);
 mongoose.connect(keys.mongoURL)
 authRoutes(app);
 
+app.use(
+    cookieSession({
+        maxAge:30 * 24 * 60 * 1000, //Tiempo que la cookie sera valido
+        keys: [keys.cookieKey] //un dato cifrado
+    })
+)
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+require('./routes/authRoutes.js')(app);
+require('./routes/billingRoutes.js')(app);
+
 app.use(proxy('/auth/google', { target: 'http://localhost:5000' }));
 app.use(proxy('/api/**', { target: 'http://localhost:5000' }));
 app.use(proxy('/auth/google/callback', { target: 'http://localhost:5000' }));
 app.use(proxy('/api/current_user', { target: 'http://localhost:5000' }));
 
-//require('./routes/authRoutes.js')(app)
+
 
 
 
